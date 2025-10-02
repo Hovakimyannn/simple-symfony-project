@@ -1,0 +1,48 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: symfony-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-symfony_db}
+      MYSQL_USER: ${MYSQL_USER:-symfony_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - symfony-net
+
+  php:
+    build:
+      context: ./docker/php
+    container_name: symfony-php
+    volumes:
+      # Mount the current directory to /var/www/symfony in the container
+      - ./:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - symfony-net
+
+  nginx:
+    image: nginx:alpine
+    container_name: symfony-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - symfony-net
+
+networks:
+  symfony-net:
+    driver: bridge
+
+volumes:
+  db_data:
