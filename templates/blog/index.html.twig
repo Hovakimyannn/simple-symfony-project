@@ -1,0 +1,21 @@
+{# templates/blog/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}All Posts{% endblock %}
+
+{% block body %}
+    <h1>All Posts</h1>
+
+    {% for post in posts %}
+        <article>
+            <h2>
+                <a href="{{ path('blog_show', {id: post.id}) }}">
+                    {{ post.title }}
+                </a>
+            </h2>
+            <p>Created at: {{ post.createdAt|date('Y-m-d H:i') }}</p>
+        </article>
+    {% else %}
+        <p>No posts found.</p>
+    {% endfor %}
+{% endblock %}
