@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search Results for "{{ query }}"{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Search Results</h1>
+
+        <form action="{{ path('app_search') }}" method="GET">
+            <div class="form-group">
+                <input type="text" name="q" value="{{ query }}" placeholder="Search posts and comments..." class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <hr>
+
+        <div class="col-md-9">
+            <h3>Found {{ posts|length }} result(s) for "{{ query }}":</h3>
+
+            {% for post in posts %}
+                <article>
+                    <h2><a href="#">{{ post.title }}</a></h2>
+                    <small>By on {{ post.createdAt|date('Y-m-d') }}</small>
+
+                    <p>{{ post.content|slice(0, 200) }}...</p>
+
+                    <small>Comments ({{ post.comments.count }})</small>
+                </article>
+            {% else %}
+                <p>No results found.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    </div>
+{% endblock %}

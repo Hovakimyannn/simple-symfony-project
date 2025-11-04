@@ -1,0 +1,28 @@
+# config/packages/fos_elastica.yaml
+fos_elastica:
+    clients:
+        default:
+            hosts:
+                - "http://localhost:9200"
+
+    indexes:
+        posts:
+            persistence:
+                driver: orm
+                model: App\Entity\Post
+                provider: ~
+                listener:
+                    enabled: false
+
+            properties:
+                title: { type: 'text' }
+                content: { type: 'text' }
+                author: { type: 'keyword' }
+                createdAt: { type: 'date' }
+
+                comments:
+                    type: 'nested'
+                    properties:
+                        content: { type: 'text' }
+                        author: { type: 'keyword' }
+                        createdAt: { type: 'date' }

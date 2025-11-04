@@ -19,3 +19,17 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\MessageHandler\IndexPostHandler:
+        arguments:
+            # Ասում ենք Symfony-ին. $postPersister արգումենտի համար օգտագործիր
+            # կոնկրետ 'fos_elastica.object_persister.posts' service-ը։
+            $postPersister: '@fos_elastica.object_persister.posts'
+            # $postRepository-ն ավտոմատ կգտնվի (autowired)
+
+        # 2. Կանխարգելիչ ուղղում PostSearchService-ի համար
+    App\Service\PostSearchService:
+        arguments:
+            # Ասում ենք Symfony-ին. $postFinder արգումենտի համար օգտագործիր
+            # կոնկրետ 'fos_elastica.finder.posts' service-ը։
+            $postFinder: '@fos_elastica.finder.posts'
