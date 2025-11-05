@@ -17,7 +17,6 @@ fos_elastica:
             properties:
                 title: { type: 'text' }
                 content: { type: 'text' }
-                author: { type: 'keyword' }
                 createdAt: { type: 'date' }
 
                 comments:

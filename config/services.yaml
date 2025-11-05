@@ -13,7 +13,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
+    # this creates a service per class whose id is the fully qualified class name
     App\:
         resource: '../src/'
 
@@ -22,12 +22,8 @@ services:
 
     App\MessageHandler\IndexPostHandler:
         arguments:
-            # Ասում ենք Symfony-ին. $postPersister արգումենտի համար օգտագործիր
-            # կոնկրետ 'fos_elastica.object_persister.posts' service-ը։
             $postPersister: '@fos_elastica.object_persister.posts'
-            # $postRepository-ն ավտոմատ կգտնվի (autowired)
 
-        # 2. Կանխարգելիչ ուղղում PostSearchService-ի համար
     App\Service\PostSearchService:
         arguments:
             # Ասում ենք Symfony-ին. $postFinder արգումենտի համար օգտագործիր
